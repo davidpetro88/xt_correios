@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf8"?>
+<xtcommerceplugin>
+    <title>Correios</title>
+    <version>1.0</version>
+    <code>xt_correios</code>
+    <url>http://www.forttiori.com.br</url>
+    <description>Shipping</description>
+    <icon>footer-logo.png</icon>
+    <type>shipping</type>
+    <db_install>
+    <![CDATA[
+        require _SRV_WEBROOT._SRV_WEB_PLUGINS.'xt_correios/database/db_install.php';
+    ]]>
+    </db_install>
+    <db_uninstall>
+    <![CDATA[
+        require _SRV_WEBROOT._SRV_WEB_PLUGINS.'xt_correios/database/db_uninstall.php';
+    ]]>
+    </db_uninstall>
+    <plugin_code>
+        <code>
+            <hook>page_registry.php:bottom</hook>
+            <phpcode>
+					<![CDATA[
+							define('SERVER',$_SERVER['HTTP_HOST']);
+							define('SUPPORT_EMAIL','david@forttiori.com.br');
+							require _SRV_WEBROOT.'plugins/xt_correios/classes/class.xt_correios.php';
+					]]>
+            </phpcode>
+            <order>1</order>
+            <active>1</active>
+        </code>
+        <code>
+            <hook>css_admin.php:css</hook>
+            <phpcode>
+				<![CDATA[
+					include(_SRV_WEBROOT._SRV_WEB_PLUGINS.'xt_correios/hooks/css_admin.php_css.php');
+				]]>
+            </phpcode>
+            <order>1</order>
+            <active>1</active>
+        </code>
+        <code>
+            <hook>class.product.php:_getParams_panelSettings</hook>
+            <phpcode>
+				<![CDATA[
+					$groupingPosition 	= 'produto_tab';
+					$grouping['height'] = array('position' => $groupingPosition);
+					$grouping['length'] = array('position' => $groupingPosition);
+					$grouping['width'] 	= array('position' => $groupingPosition);
+				]]>
+            </phpcode>
+            <order>1</order>
+            <active>1</active>
+        </code>
+        <code>
+            <hook>product_info_tpl_before_cart</hook>
+            <phpcode>
+				<![CDATA[
+					require_once _SRV_WEBROOT._SRV_WEB_PLUGINS.'xt_correios/hooks/view/form.php';
+				]]>
+            </phpcode>
+            <order>1</order>
+            <active>1</active>
+        </code>
+        <code>
+            <hook>cronjob.php:main</hook>
+            <phpcode>
+				<![CDATA[
+					if ($_GET['consult'] == TRUE){
+						require_once _SRV_WEBROOT._SRV_WEB_PLUGINS.'xt_correios/classes/view/expected-delivery.php';
+					} elseif ($_GET['checkout'] == TRUE){
+						require_once _SRV_WEBROOT._SRV_WEB_PLUGINS.'xt_correios/classes/view/checkout.php_result_correios.php';
+					}						
+				]]>
+            </phpcode>
+            <order>1</order>
+            <active>1</active>
+        </code>
+        <code>
+            <hook>cart_total_bottom</hook>
+            <phpcode>
+				<![CDATA[
+					require_once _SRV_WEBROOT._SRV_WEB_PLUGINS.'xt_correios/hooks/view/form.php';
+				]]>
+            </phpcode>
+            <order>1</order>
+            <active>1</active>
+        </code>
+        <code>
+            <hook>class.checkout.php:_getShipping</hook>
+            <phpcode>
+				<![CDATA[
+					require_once _SRV_WEBROOT._SRV_WEB_PLUGINS.'xt_correios/classes/view/checkout.php_getShipping.php';
+				]]>
+            </phpcode>
+            <order>1</order>
+            <active>1</active>
+        </code>
+        <code>
+            <hook>checkout_tpl_shipping</hook>
+            <phpcode>
+				<![CDATA[
+					require_once _SRV_WEBROOT._SRV_WEB_PLUGINS.'xt_correios/classes/view/checkout_tpl_shipping.php';
+				]]>
+            </phpcode>
+            <order>1</order>
+            <active>1</active>
+        </code>
+        <code>
+            <hook>module_checkout.php:checkout_data</hook>
+            <phpcode>
+				<![CDATA[
+					require_once _SRV_WEBROOT._SRV_WEB_PLUGINS.'xt_correios/classes/view/module_checkout.php_checkout_data.php';
+				]]>
+            </phpcode>
+            <order>1</order>
+            <active>1</active>
+        </code>
+        <code>
+            <hook>module_checkout.php:checkout_shipping_bottom</hook>
+            <phpcode>
+				<![CDATA[
+					require_once _SRV_WEBROOT._SRV_WEB_PLUGINS.'xt_correios/classes/view/checkout.php_correios.php';
+				]]>
+            </phpcode>
+            <order>1</order>
+            <active>1</active>
+        </code>
+    </plugin_code>
+    <configuration>
+        <config>
+            <key>Export Feeds </key>
+            <value>export feed</value>
+            <type></type>
+            <url>http://www.forttiori.com.br</url>
+            <bp>
+                <title></title>
+                <description></description>
+            </bp>
+            <en>
+                <title></title>
+                <description></description>
+            </en>
+            <fr>
+                <title></title>
+                <description></description>
+            </fr>
+        </config>
+    </configuration>
+    <language_content>
+        <phrase>
+            <key>TEXT_XT_CORREIOS</key>
+            <class>admin</class>
+            <bp>
+                <value>Correios</value>
+            </bp>
+            <en>
+                <value>Correios</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_XT_CORREIOS_SAVE</key>
+            <class>admin</class>
+            <bp>
+                <value>Salvar</value>
+            </bp>
+            <en>
+                <value>Save</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_XT_CORREIOS_RESET</key>
+            <class>admin</class>
+            <bp>
+                <value>Limpar</value>
+            </bp>
+            <en>
+                <value>Reset</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_SERVICE_CONFIGURATION_USER</key>
+            <class>admin</class>
+            <bp>
+                <value>Usuário correios</value>
+            </bp>
+            <en>
+                <value>User correios</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_PACKAGE_CONFIGURATION</key>
+            <class>admin</class>
+            <bp>
+                <value>Pacotes de entrega</value>
+            </bp>
+            <en>
+                <value>Delivery packages</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_SERVICE_CONFIGURATION_SHIPPING</key>
+            <class>admin</class>
+            <bp>
+                <value>Configurações de entrega</value>
+            </bp>
+            <en>
+                <value>Delivery settingss</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_USER</key>
+            <class>admin</class>
+            <bp>
+                <value>Usuário</value>
+            </bp>
+            <en>
+                <value>User</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_PASSWORD</key>
+            <class>admin</class>
+            <bp>
+                <value>Senha</value>
+            </bp>
+            <en>
+                <value>Password</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_BUTTON_ADD</key>
+            <class>admin</class>
+            <bp>
+                <value>Adicionar</value>
+            </bp>
+            <en>
+                <value>Add</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_BUTTON_REMOVE</key>
+            <class>admin</class>
+            <bp>
+                <value>Remover</value>
+            </bp>
+            <en>
+                <value>Remove</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_CODE</key>
+            <class>admin</class>
+            <bp>
+                <value>Código</value>
+            </bp>
+            <en>
+                <value>Code</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_DESCRIPTION</key>
+            <class>admin</class>
+            <bp>
+                <value>Descrição</value>
+            </bp>
+            <en>
+                <value>Description</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_ACTIVE</key>
+            <class>admin</class>
+            <bp>
+                <value>Ativo</value>
+            </bp>
+            <en>
+                <value>Active</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_EXCEED_VALUES</key>
+            <class>admin</class>
+            <bp>
+                <value>valores acima do permitido!</value>
+            </bp>
+            <en>
+                <value>exceed the permissible values</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_MAXIMUM_HEIGHT</key>
+            <class>admin</class>
+            <bp>
+                <value>Altura máxima 60 cm!</value>
+            </bp>
+            <en>
+                <value>Maximum height 60 cm!</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_HEIGHT_MINIMUM</key>
+            <class>admin</class>
+            <bp>
+                <value>Altura miníma 2 cm!</value>
+            </bp>
+            <en>
+                <value>Height minimum 2 cm!</value>
+            </en>
+        </phrase>		
+        <phrase>
+            <key>TEXT_CORREIOS_MAXIMUM_LENGTH</key>
+            <class>admin</class>
+            <bp>
+                <value>Comprimento máximo 60 cm!</value>
+            </bp>
+            <en>
+                <value>Maximum length of 60 cm!</value>
+            </en>
+        </phrase>		
+        <phrase>
+            <key>TEXT_CORREIOS_MINIMUM_LENGTH</key>
+            <class>admin</class>
+            <bp>
+                <value>Comprimento mínimo 16 cm!</value>
+            </bp>
+            <en>
+                <value>Minimum length of 16 cm!</value>
+            </en>
+        </phrase>		
+        <phrase>
+            <key>TEXT_CORREIOS_MAXIMUM_WIDTH</key>
+            <class>admin</class>
+            <bp>
+                <value>Largura máxima 60 cm!</value>
+            </bp>
+            <en>
+                <value>Maximum width of 60 cm!</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_MINIMUM_WIDTH</key>
+            <class>admin</class>
+            <bp>
+                <value>Largura mínima 11 cm!</value>
+            </bp>
+            <en>
+                <value>Minimum width of 11 cm!</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_UPDATED_SUCCESS</key>
+            <class>admin</class>
+            <bp>
+                <value>Dados atualizados com sucesso!</value>
+            </bp>
+            <en>
+                <value>Data updated successfully!</value>
+            </en>
+        </phrase>	
+        <phrase>
+            <key>TEXT_CORREIOS_ZIPE_CODE_SHOPKEEPER</key>
+            <class>admin</class>
+            <bp>
+                <value>Cep lojista</value>
+            </bp>
+            <en>
+                <value>Zip code shopkeeper</value>
+            </en>
+        </phrase>		
+        <phrase>
+            <key>TEXT_PRODUTO_TAB</key>
+            <class>admin</class>
+            <bp>
+                <value>Dimensões Produto</value>
+            </bp>
+            <en>
+                <value>Dimensions Product</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_HEIGHT</key>
+            <class>admin</class>
+            <bp>
+                <value>Altura</value>
+            </bp>
+            <en>
+                <value>Height</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_LENGTH</key>
+            <class>admin</class>
+            <bp>
+                <value>Comprimento</value>
+            </bp>			
+            <en>
+                <value>Length</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_WIDTH</key>
+            <class>admin</class>
+            <bp>
+                <value>Largura</value>
+            </bp>
+            <en>
+                <value>Width</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_CORREIOS_ZIPE_CODE_COMPLETED</key>
+            <class>admin</class>
+            <bp>
+                <value>O cep deve ser preenchido para o plugin funcionar.</value>
+            </bp>
+            <en>
+                <value>The zip should be completed for the plugin to work.</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_SERVICE_UNAVAILABLE</key>
+            <class>store</class>
+            <bp>
+                <value>Serviço indisponivel.</value>
+            </bp>
+            <en>
+                <value>Service unavailable.</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_PRODUCT_WITH_SHIPPING_UNAVAILABLE</key>
+            <class>store</class>
+            <bp>
+                <value>Produto com frete indisponivel.</value>
+            </bp>
+            <en>
+                <value>Product with shipping unavailable.</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_PRODUCT_WITH_SIZE_UNAVAILABLE</key>
+            <class>store</class>
+            <bp>
+                <value>Tamanho excedido para entrega via Correios.</value>
+            </bp>
+            <en>
+                <value>Size exceeded for delivery by Correios.</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_MENU_CONSULT_CORREIOS_TYPE_SHIPPING</key>
+            <class>store</class>
+            <bp>
+                <value>Tipo de Entrega</value>
+            </bp>
+            <en>
+                <value>Type of shipping</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_MENU_CONSULT_CORREIOS_TIME</key>
+            <class>store</class>
+            <bp>
+                <value>Prazo de entrega</value>
+            </bp>
+            <en>
+                <value>Delivery time</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_MENU_CONSULT_CORREIOS_VALUE</key>
+            <class>store</class>
+            <bp>
+                <value>Valor</value>
+            </bp>
+            <en>
+                <value>Value</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_EMPTY_ZIP_CODE</key>
+            <class>store</class>
+            <bp>
+                <value>Favor informar o cep.</value>
+            </bp>
+            <en>
+                <value>Please enter the zip code.</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_INFORM_ZIP_CODE</key>
+            <class>store</class>
+            <bp>
+                <value>Informe o CEP</value>
+            </bp>
+            <en>
+                <value>inform zip code</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_SATURDAY_DELIVERY</key>
+            <class>store</class>
+            <bp>
+                <value>Entrega Sabado</value>
+            </bp>
+            <en>
+                <value>Saturday delivery</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_JAVASCRIPT_DISABLE</key>
+            <class>store</class>
+            <bp>
+                <value>Para poder utilizar o serviço de entrega dos correios você deve ter o javascript habilitado.</value>
+            </bp>
+            <en>
+                <value>To use the postal delivery service, you must have enabled the javascript.</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_RESULT_CORREIO_AVAILABLE</key>
+            <class>store</class>
+            <bp>
+                <value>Correios - Serviço de Frete Indisponivel.</value>
+            </bp>
+            <en>
+                <value>Correios - Services Shipping available.</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_TITLE_SERVICE_SHIPPING_STORE</key>
+            <class>store</class>
+            <bp>
+                <value>Serviços de entrega.</value>
+            </bp>
+            <en>
+                <value>Service of shipping.</value>
+            </en>
+        </phrase>
+        <phrase>
+            <key>TEXT_COPYRIGHT_GETIT</key>
+            <class>admin</class>
+            <bp>
+                <value>Criado em 2013</value>
+            </bp>
+            <en>
+                <value>Create in 2013</value>
+            </en>
+        </phrase>
+    </language_content>
+</xtcommerceplugin>

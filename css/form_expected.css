@@ -1,0 +1,70 @@
+#mask {
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:9000;
+  background-color:#000;
+  display:none;
+}
+  
+#boxes .window {
+  position:absolute;
+  left:0;
+  top:0;
+  width:400px;
+  min-height:100px;
+  display:none;
+  z-index:9999;
+  padding:20px;
+  -webkit-border-radius: 4x; 
+  -moz-border-radius:4px; 
+  border-radius: 4px;
+}
+
+#boxes #dialog {
+  width:400px;
+  min-height:100px;
+  padding:10px;
+  background-color:#FFF;
+  -webkit-border-radius: 4x; 
+  -moz-border-radius:4px; 
+  border-radius: 4px;
+  
+}
+
+#boxes #dialog .result-zip-code{
+	display:table;
+	margin-left:auto;
+	margin-right:auto;
+	-webkit-border-radius: 4x; 
+	-moz-border-radius:4px; 
+	border-radius: 4px;
+}
+
+
+.close{display:block; font-weight:bold; text-align:right;}
+
+
+#consult-correios{
+	width: 500px;
+	margin-top: 20px;
+	min-height: 30px;
+	display:table;
+	clear:both;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#consult-correios .form-zip-code{
+	float: left;
+	width:100%;
+	display:table;
+}
+
+#consult-correios #loading{
+	float:left;
+	width:100px;
+	padding-top:3px;
+	min-height:20px;
+	display:none;
+}
